@@ -1,4 +1,53 @@
+body {
+  background: #536976; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to left,
+    #292e49,
+    #536976
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #292e49,
+    #536976
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 img {
   max-height: 100px;
   max-width: 100px;
+}
+
+.content {
+  margin: 20px 5%;
+}
+
+.ui.header .content {
+  font-size: 3.5rem;
+  font-weight: normal;
+  color: white;
+  text-shadow: 1px 1px 3px black;
+}
+
+.ui.selection.dropdown {
+  background-color: beige;
+}
+
+.filters {
+  text-align: center;
+  margin: 20px auto 50px auto;
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.ui.celled.table tr th {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.ui.celled.table tr td {
+  background: rgba(228, 228, 32, 0.1);
+}
+
+.ui.celled.table tr:hover td {
+  background: lightgray;
 }

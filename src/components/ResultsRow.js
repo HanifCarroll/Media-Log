@@ -19,7 +19,7 @@ const ResultsRow = props => {
   };
 
   return (
-    <Table.Row>
+    <Table.Row className="table-row">
       <Table.Cell>{thumbnail()}</Table.Cell>
       <Table.Cell>{title}</Table.Cell>
       <Table.Cell>

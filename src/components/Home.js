@@ -79,6 +79,7 @@ class Home extends Component {
         </div>
         <div className="filters">
           <Dropdown
+            button
             placeholder="Filter by User"
             selection
             options={this.state.users}
@@ -87,6 +88,7 @@ class Home extends Component {
             }
           />
           <Dropdown
+            button
             placeholder="Filter by Service"
             selection
             options={this.state.services}
