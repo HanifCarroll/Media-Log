@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Icon } from "semantic-ui-react";
+import { Header } from "semantic-ui-react";
 
 const AppHeader = () => (
   <Header as="h1" textAlign="center">
