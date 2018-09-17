@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { Dropdown } from "semantic-ui-react";
+import { Dropdown, Loader, Segment } from "semantic-ui-react";
 
 import { extractServices, extractUsers } from "../helpers";
 import Results from "./Results";
@@ -8,6 +8,7 @@ import AppHeader from "./AppHeader";
 
 class Home extends Component {
   state = {
+    fetchingData: true,
     mediaObjects: [],
     filteredObjects: [],
     users: [],
@@ -21,13 +22,14 @@ class Home extends Component {
   }
 
   fetchData = () => {
-    Axios.get("http://localhost:8000/logger/")
+    Axios.get("https://media-logger-server.herokuapp.com/logger/")
       .then(data =>
         this.setState({
           mediaObjects: data.data,
           filteredObjects: data.data,
           users: extractUsers(data.data),
-          services: extractServices(data.data)
+          services: extractServices(data.data),
+          fetchingData: false
         })
       )
       .catch(e => console.log(e));
@@ -71,36 +73,53 @@ class Home extends Component {
     });
   };
 
+  renderContent = () => (
+    <div>
+      <div className="header">
+        <AppHeader />
+      </div>
+      <div className="filters">
+        <Dropdown
+          button
+          placeholder="Filter by User"
+          selection
+          options={this.state.users}
+          onChange={(event, data, prop) =>
+            this.onFilterChange(event, data, "User")
+          }
+        />
+        <Dropdown
+          button
+          placeholder="Filter by Service"
+          selection
+          options={this.state.services}
+          onChange={(event, data, prop) =>
+            this.onFilterChange(event, data, "Service")
+          }
+        />
+      </div>
+    </div>
+  );
+
+  renderResults = () => (
+    <div className="results">
+      <Results data={this.state.filteredObjects} />
+    </div>
+  );
+
+  renderLoader = () => (
+    <div>
+      <Segment className="loading">
+        <Loader inverted content="Loading" />
+      </Segment>
+    </div>
+  );
+
   render() {
     return (
       <div className="content">
-        <div className="header">
-          <AppHeader />
-        </div>
-        <div className="filters">
-          <Dropdown
-            button
-            placeholder="Filter by User"
-            selection
-            options={this.state.users}
-            onChange={(event, data, prop) =>
-              this.onFilterChange(event, data, "User")
-            }
-          />
-          <Dropdown
-            button
-            placeholder="Filter by Service"
-            selection
-            options={this.state.services}
-            onChange={(event, data, prop) =>
-              this.onFilterChange(event, data, "Service")
-            }
-          />
-        </div>
-
-        <div className="results">
-          <Results data={this.state.filteredObjects} />
-        </div>
+        {this.renderContent()}
+        {this.state.fetchingData ? this.renderLoader() : this.renderResults()}
       </div>
     );
   }

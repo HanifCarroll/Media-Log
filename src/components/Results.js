@@ -55,6 +55,12 @@ class Results extends React.Component {
                 onClick={this.handleSort("thumbnail_url")}
               />
               <Table.HeaderCell
+                sorted={column === "artist" ? direction : null}
+                onClick={this.handleSort("artist")}
+              >
+                Artist
+              </Table.HeaderCell>
+              <Table.HeaderCell
                 sorted={column === "title" ? direction : null}
                 onClick={this.handleSort("title")}
               >

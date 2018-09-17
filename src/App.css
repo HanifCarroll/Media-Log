@@ -51,3 +51,8 @@ img {
 .ui.celled.table tr:hover td {
   background: lightgray;
 }
+
+.loading {
+  height: 50vh;
+  width: 90vw;
+}

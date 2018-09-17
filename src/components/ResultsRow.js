@@ -4,6 +4,7 @@ import format from "date-fns/format";
 
 const ResultsRow = props => {
   const {
+    artist,
     title,
     user,
     url,
@@ -21,6 +22,7 @@ const ResultsRow = props => {
   return (
     <Table.Row className="table-row">
       <Table.Cell>{thumbnail()}</Table.Cell>
+      <Table.Cell>{artist}</Table.Cell>
       <Table.Cell>{title}</Table.Cell>
       <Table.Cell>
         <a href={url} target="_blank" rel="noopener">
