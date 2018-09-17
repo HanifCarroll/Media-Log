@@ -5,5 +5,6 @@ This is the front-end to my media logging Discord bot.  Created with React, and 
 ## Relevant Links
 
 [Server - Python/Django](https://github.com/HanifCarroll/Media-Logger-Django)
+
 [Discord Bot - Python](https://github.com/HanifCarroll/Media-Logger-Discord-Bot)
 
