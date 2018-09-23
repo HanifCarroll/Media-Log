@@ -23,7 +23,7 @@ class Home extends Component {
     filteredObjects: [],
     users: [],
     userChart: true,
-    showTable: false,
+    showTable: true,
     services: [],
     selectedUser: "All Users",
     selectedService: "All Services"
