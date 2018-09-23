@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const extractServices = arr => {
   let services = ["All Services"];
 
@@ -20,4 +22,20 @@ export const extractUsers = arr => {
   users = users.map(user => ({ text: user, value: user }));
 
   return users;
+};
+
+export const extractUserChart = arr => {
+  let users = _.countBy(arr, el => el.fields.user);
+
+  users = Object.keys(users).map(key => [key, users[key]]);
+
+  return users;
+};
+
+export const extractServiceChart = arr => {
+  let services = _.countBy(arr, el => el.fields.service);
+
+  services = Object.keys(services).map(key => [key, services[key]]);
+
+  return services;
 };

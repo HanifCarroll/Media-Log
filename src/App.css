@@ -34,10 +34,19 @@ img {
 
 .filters {
   text-align: center;
-  margin: 20px auto 50px auto;
+  margin: 20px auto 30px auto;
   width: 40%;
   display: flex;
   justify-content: space-around;
+}
+
+.view-switch {
+  float: right;
+  margin-bottom: 30px;
+}
+
+.chart-button {
+  float: right;
 }
 
 .ui.celled.table tr th {

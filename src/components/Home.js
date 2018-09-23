@@ -1,17 +1,29 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { Dropdown, Loader, Segment } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
 
-import { extractServices, extractUsers } from "../helpers";
+import {
+  extractServices,
+  extractUsers,
+  extractUserChart,
+  extractServiceChart
+} from "../helpers";
 import Results from "./Results";
 import AppHeader from "./AppHeader";
+import Loading from "./Loading";
+import ChartComponent from "./ChartComponent";
+import MyButton from "./MyButton";
 
 class Home extends Component {
   state = {
     fetchingData: true,
+    userChartData: [],
+    serviceChartData: [],
     mediaObjects: [],
     filteredObjects: [],
     users: [],
+    userChart: true,
+    showTable: false,
     services: [],
     selectedUser: "All Users",
     selectedService: "All Services"
@@ -22,17 +34,27 @@ class Home extends Component {
   }
 
   fetchData = () => {
-    Axios.get("https://media-logger-server.herokuapp.com/logger/")
+    Axios.get("https://media-logger-server.herokuapp.com/logger")
       .then(data =>
         this.setState({
           mediaObjects: data.data,
           filteredObjects: data.data,
           users: extractUsers(data.data),
           services: extractServices(data.data),
+          userChartData: extractUserChart(data.data),
+          serviceChartData: extractServiceChart(data.data),
           fetchingData: false
         })
       )
       .catch(e => console.log(e));
+  };
+
+  onChangeView = () => {
+    this.setState({ showTable: !this.state.showTable });
+  };
+
+  onChangeChart = () => {
+    this.setState({ userChart: !this.state.userChart });
   };
 
   filterByUser = (data, user) => {
@@ -81,6 +103,7 @@ class Home extends Component {
       <div className="filters">
         <Dropdown
           button
+          disabled={!this.state.showTable}
           placeholder="Filter by User"
           selection
           options={this.state.users}
@@ -90,6 +113,7 @@ class Home extends Component {
         />
         <Dropdown
           button
+          disabled={!this.state.showTable}
           placeholder="Filter by Service"
           selection
           options={this.state.services}
@@ -97,6 +121,26 @@ class Home extends Component {
             this.onFilterChange(event, data, "Service")
           }
         />
+      </div>
+      <div className="buttons">
+        <div>
+          <MyButton
+            className="view-switch"
+            onClick={this.onChangeView}
+            content="Change View"
+            icon={this.state.showTable ? "chart pie" : "table"}
+          />
+        </div>
+        <div>
+          {this.state.showTable ? null : (
+            <MyButton
+              className="chart-button"
+              onClick={this.onChangeChart}
+              content={this.state.userChart ? "Show Services" : "Show Users"}
+              icon="chart pie"
+            />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -107,19 +151,31 @@ class Home extends Component {
     </div>
   );
 
-  renderLoader = () => (
-    <div>
-      <Segment className="loading">
-        <Loader inverted content="Loading" />
-      </Segment>
-    </div>
+  renderChart = () => (
+    <ChartComponent
+      userChart={this.state.userChart}
+      chartData={
+        this.state.userChart
+          ? this.state.userChartData
+          : this.state.serviceChartData
+      }
+    />
   );
+
+  renderTable = () => {
+    return this.state.fetchingData ? <Loading /> : this.renderResults();
+  };
+
+  renderView = () => {
+    if (this.state.showTable) return this.renderTable();
+    if (!this.state.showTable) return this.renderChart();
+  };
 
   render() {
     return (
       <div className="content">
         {this.renderContent()}
-        {this.state.fetchingData ? this.renderLoader() : this.renderResults()}
+        {this.renderView()}
       </div>
     );
   }
